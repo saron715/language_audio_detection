@@ -36,3 +36,6 @@ cd language_audio_detection
  python manage.py migrate
 # Run the Django development server
  python manage.py runserver
+
+
+Hugging face : https://huggingface.co/spaces/saronium/Indian-language-identification-from-audio
