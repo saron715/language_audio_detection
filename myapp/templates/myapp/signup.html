@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+      body {
+          font-family: sans-serif;  /* Set a default font */
+          margin: 0;  /* Remove default body margins */
+          padding: 0;  /* Remove default body paddings */
+        }
+        
+        h1 {
+          text-align: center;  /* Center align headings */
+          margin-bottom: 20px;  /* Add some space below headings */
+        }
+        
+        .container {
+          width: 400px;  /* Set a fixed width for the content area */
+          margin: 50px auto;  /* Center the content area horizontally with some margin */
+          border: 1px solid #ddd;  /* Add a light border */
+          border-radius: 4px;   /* Add rounded corners */
+          padding: 20px;  /* Add some padding for content */
+        }
+        
+        /* Style the navigation list (if applicable for your home page) */
+        ul {
+          list-style: none;  /* Remove default bullet points */
+          padding: 0;  /* Remove default padding */
+          text-align: center;  /* Center align list items */
+        }
+        
+        li {
+          margin: 10px 0;  /* Add spacing between list items */
+        }
+        
+        a {
+          text-decoration: none;  /* Remove underline from links */
+          color: #000;  /* Set the link color */
+        }
+        
+        a:hover {
+          color: #333;  /* Change link color on hover */
+        }
+        
+        /* Style the form (if applicable for your signup page) */
+        form {
+          display: flex;  /* Arrange form elements horizontally */
+          flex-direction: column;  /* Stack form elements vertically */
+          align-items: center;  /* Center form elements horizontally */
+        }
+        
+        .form-group {
+          margin-bottom: 10px;  /* Add spacing between form groups */
+        }
+        
+        label {
+          display: block;  /* Make labels display on a new line */
+          margin-bottom: 5px;  /* Add space below labels */
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+          width: 100%;  /* Set the width of text input fields */
+          padding: 10px;  /* Add padding to input fields */
+          border: 1px solid #ccc;  /* Add a border to input fields */
+          border-radius: 4px;  /* Add rounded corners to input fields */
+        }
+        
+        button[type="submit"] {
+          background-color: #4CAF50;  /* Set the button background color */
+          color: white;  /* Set the button text color */
+          padding: 10px 20px;  /* Add padding to the button */
+          border: none;  /* Remove default button border */
+          border-radius: 4px;  /* Add rounded corners to the button */
+          cursor: pointer;  /* Make the button look clickable */
+        }
+        
+        button[type="submit"]:hover {
+          background-color: #3e8e41;  /* Change button color on hover */
+        }
+      </style>     
+</head>
+<body>
+    <h1>Sign Up</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        <button type="submit">Sign Up</button>
+    </form>
+    {% for message in messages %}
+        <div>{{ message }}</div>
+    {% endfor %}
+</body>
+</html>

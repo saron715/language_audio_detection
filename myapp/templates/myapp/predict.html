@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/style1.css' %}">
+    <script>
+        const MEDIA_URL = "{{ MEDIA_URL }}";
+      </script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <!-- Include the JavaScript file -->
+    <style>
+.btn-record,
+.btn-stop,
+.btn-play,
+.btn-submit {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff; /* White text for buttons */
+    background-color: #1a1a1a; /* Darker gray for buttons */
+    transition: background-color 0.2s ease-in-out;
+    margin-bottom: 10px; /* Add margin to separate buttons */
+}
+
+.btn-record:hover,
+.btn-stop:hover,
+.btn-play:hover,
+.btn-submit:hover {
+    background-color: #000; /* Black on hover for buttons */
+}
+
+/* Adjust the spacing between buttons */
+.btn-record, .btn-stop {
+    margin-right: 10px; /* Add margin to separate buttons */
+}
+
+
+  
+  .media-player {
+    width: 150px; /* Adjust media player size */
+  }
+  .btn-record.recording {
+    background-color: red; /* Change background color to red when recording */
+}
+    </style>
+</head>
+<body>
+    <h2>Language Identification</h2>
+    <div class="container">
+        <!-- Your existing HTML code -->
+       
+        <br>
+        <form id="upload-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file" id="audioInput">
+            <label for="audioInput" class="btn">Upload Audio File</label><br><br>
+            <input type="submit" value="Predict" class="btn">
+        </form>
+    
+        <br><br>
+        <button id="record" class="btn-record">Record</button>
+        <button id="stop" class="btn-stop" disabled>Stop</button>
+        <button id="play" class="btn-play" disabled>Play</button>
+        <button id="submit" class="btn-submit" disabled>Submit</button>
+
+        
+        <div class="media-player-container">
+             </div>
+    
+        <div class="prediction-container">
+            
+
+            <div id="prediction" style="font-size: 2em;"></div>
+            
+          </div>
+          <div id="imageContainer">
+            <img id="mel-spectrogram" src="" alt="Mel Spectrogram">
+        </div>
+    
+        {% if error %}
+        <p class="error-message">{{ error }}</p>
+        {% endif %}
+    </div>
+  
+    
+        <a href="logout/" >Log Out</a>
+   
+
+</body>
+</html>

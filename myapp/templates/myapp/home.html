@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Language Identification System</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5; /* Light gray background */
+    }
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url("{% static 'images/123.jpg' %}"); /* Replace with your image path */
+        background-size: cover;  /* Resize image to cover the entire background */
+        background-position: center;  /* Center the image */
+        background-repeat: no-repeat;  /* Prevent image repetition */
+      }
+
+    .container {
+      width: 600px;
+      margin: 50px auto;
+      background-color: #fff; /* White background for content area */
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2em; /* Increase font size for title */
+    }
+
+    p {
+      text-align: center;
+      color: #666; /* Lighter color for description */
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      text-align: center;
+    }
+
+    li {
+      margin: 10px 0;
+      display: inline-block; /* Display list items inline for horizontal layout */
+      margin-right: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold; /* Bold text for links */
+    }
+
+    a:hover {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Indian Language Identification System</h1>
+    <p>Welcome! Identify the language of your audio recordings.</p>
+    <ul>
+      <li><a href="{% url 'login' %}">Login</a></li>
+      <li><a href="{% url 'signup' %}">Sign Up</a></li>
+    </ul>
+  </div>
+</body>
+</html>

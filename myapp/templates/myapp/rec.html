@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Recorder</title>
+</head>
+<body>
+    <h1>Record Audio</h1>
+    <button id="record">Record</button>
+<button id="stop" disabled>Stop</button>
+<button id="play" disabled>Play</button>
+<button id="submit" disabled>Submit</button>
+<audio id="audio"></audio>
+
+    <!--
+    <div>
+        <button id="recordButton">Record</button>
+        <button id="stopButton" disabled>Stop</button>
+    </div>
+    <div>
+        <audio id="audio" controls></audio>
+    </div>
+    <div id="languagePrediction"></div>
+    <div id="language_text"></div>
+
+    <script>
+        let audioChunks = [];
+        const recordButton = document.getElementById('recordButton');
+        const stopButton = document.getElementById('stopButton');
+        const audio = document.getElementById('audio');
+        const languagePredictionDiv = document.getElementById('languagePrediction');
+        const language_textDiv = document.getElementById('language_text');
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        const csrftoken = getCookie('csrftoken');
+        let mediaRecorder;
+        
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                recordButton.addEventListener('click', () => {
+                    mediaRecorder.start();
+                    recordButton.disabled = true;
+                    stopButton.disabled = false;
+                });
+        
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+        
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    audio.src = URL.createObjectURL(audioBlob);
+                    const reader = new FileReader();
+                    reader.onloadend = function() {
+                        if (reader.result.startsWith('data:audio/wav;base64,')) {
+                            const audioData = reader.result.split(',')[1]; 
+                            if (audioData.length === 0) {
+                                console.error('Audio data is empty!');
+                            } else {
+                                fetch('/predict_response/', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRFToken': csrftoken
+                                    },
+                                    body: JSON.stringify({ audio_data: audioData })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    const languagePrediction = data.language;
+                                    const language_text = data.text;
+                                    languagePredictionDiv.textContent = `Predicted Language: ${languagePrediction}`;
+                                    language_textDiv.textContent = `Language text: ${language_text}`;
+                                    console.log(data);
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
+                            }
+                        } else {
+                            console.error('Unexpected DataURL format:', reader.result);
+                        }
+                    };
+                    reader.readAsDataURL(audioBlob);
+                    audioChunks = []; // Clear the audioChunks array after the FileReader has read the Blob
+                    recordButton.disabled = false;
+                    stopButton.disabled = true;
+                };
+            })
+            .catch(console.error);
+        
+        stopButton.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+        });
+        
+    </script>  
+    -->
+    <script>
+let mediaRecorder;
+let recordedChunks = [];
+
+document.getElementById('record').addEventListener('click', function() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+
+            document.getElementById('stop').disabled = false;
+            document.getElementById('record').disabled = true;
+
+            mediaRecorder.addEventListener('dataavailable', function(e) {
+                recordedChunks.push(e.data);
+            });
+        });
+});
+
+document.getElementById('stop').addEventListener('click', function() {
+    mediaRecorder.stop();
+
+    document.getElementById('play').disabled = false;
+    document.getElementById('submit').disabled = false;
+    document.getElementById('stop').disabled = true;
+});
+
+document.getElementById('play').addEventListener('click', function() {
+    let audioBlob = new Blob(recordedChunks);
+    let audioUrl = URL.createObjectURL(audioBlob);
+    let audio = document.getElementById('audio');
+    audio.src = audioUrl;
+    audio.play();
+});
+
+document.getElementById('submit').addEventListener('click', function() {
+    let audioBlob = new Blob(recordedChunks);
+    let formData = new FormData();
+    formData.append('audio', audioBlob);
+
+    fetch('/predict_response/', {
+        method: 'POST',
+        body: formData
+    }).then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+});
+</script>
+
+</body>
+</html>
