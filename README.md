@@ -20,7 +20,10 @@ Scalability: Deep learning models are highly scalable and can handle large volum
 
 
 ## Installation 
-### Prerequisites - Python 3.x - Django - Other dependencies listed in `requirements.txt` 
+### Prerequisites
+- Python 3.x
+- Django
+- Other dependencies listed in `requirements.txt` 
 ### Installation Steps
   ```bash
 # Clone the repository
